@@ -1,65 +1,31 @@
-package se.crisp.account.rules.domain;
+package se.crisp.account.rules;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.UUID;
-
-@Entity
-public class Rule {
-    @Id
-    private String id;
-
-    @Column(name = "casino", length = 100)
+public class NewRuleRequest {
     private String casino;
-
-    @Column(name = "game_name_contains", length = 100)
     private String gameNameContains;
-
-    @Column(name = "game_name_contains_not", length = 100)
     private String gameNameContainsNot;
-
-    public String getId() {
-        return id;
-    }
-
-    void setId(String id) {
-        this.id = id;
-    }
 
     public String getCasino() {
         return casino;
-    }
-
-    void setCasino(String casino) {
-        this.casino = casino;
     }
 
     public String getGameNameContains() {
         return gameNameContains;
     }
 
-    void setGameNameContains(String gameNameContains) {
-        this.gameNameContains = gameNameContains;
-    }
-
     public String getGameNameContainsNot() {
         return gameNameContainsNot;
     }
 
-    void setGameNameContainsNot(String gameNameContainsNot) {
-        this.gameNameContainsNot = gameNameContainsNot;
-    }
-
-    public static IGameNameContains casino(String casino) {
-        return new Builder(casino);
+    public static IGameNameContains casino(String casinoField) {
+        return new Builder(casinoField);
     }
 
     public static class Builder implements IGameNameContains, IGameNameContainsNot, IBuild {
-        private final Rule rule;
+        private final NewRuleRequest rule;
 
         public Builder(String casino) {
-            rule = new Rule();
+            rule = new NewRuleRequest();
             rule.casino = casino;
         }
 
@@ -76,8 +42,7 @@ public class Rule {
         }
 
         @Override
-        public Rule build() {
-            rule.id = UUID.randomUUID().toString();
+        public NewRuleRequest build() {
             return rule;
         }
     }
@@ -91,7 +56,6 @@ public class Rule {
     }
 
     public interface IBuild {
-        Rule build();
+        NewRuleRequest build();
     }
-
 }
